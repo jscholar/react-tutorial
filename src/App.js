@@ -1,28 +1,62 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Person from './Person/Person'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+class App extends React.Component {
+  state = {
+    persons: [
+      {name: 'Kristaps', age: 23},
+      {name: 'Luka', age: 19},
+      {name: 'Dennis', age: 20}
+    ],
+    otherState: 'some other value'
   }
+
+  clickHandler = () => {
+    this.setState({
+      persons: [
+        {name: 'Kristaps Porzingis', age: 23},
+        {name: 'Luka Doncic', age: 19},
+        {name: 'Dennis Smith Jr.', age: 20}
+      ]
+    })
+  }
+
+  nameChangeHandler = (event) => {
+    this.setState( {
+      persons: [
+        {name: 'Kristaps Porzingis', age: 23},
+        {name: event.target.value, age: 19},
+        {name: 'Dennis Smith Jr.', age: 20}
+      ]
+    })
+  }
+
+    render() {
+      return (
+        <div className="App">
+          <button onClick={this.clickHandler}>Switch Name</button>
+            <Person
+              name={this.state.persons[0].name}
+              age={this.state.persons[0].age}
+              click={this.clickHandler}
+              />
+            <Person
+              name={this.state.persons[1].name} 
+              age={this.state.persons[1].age}
+              click={this.clickHandler}
+              changed={this.nameChangeHandler}
+              />
+            <Person
+              name={this.state.persons[2].name}
+              age={this.state.persons[2].age}
+              click={this.clickHandler}
+              />
+        </div>
+      )
+    }
 }
 
 export default App;
+
+
