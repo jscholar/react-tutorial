@@ -2,7 +2,11 @@ import React from 'react';
 import Person from './Person/Person'
 import Radium, { StyleRoot } from 'radium'
 
+<<<<<<< HEAD
 import './App.css';
+=======
+import classes from './App.module.css';
+>>>>>>> bf8ed7f... removed module loading option on plain css files. src files configured for module.css syntax
 
 
 class App extends React.Component {
