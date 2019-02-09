@@ -1,62 +1,110 @@
 import React from 'react';
-import './App.css';
 import Person from './Person/Person'
+import Radium, { StyleRoot } from 'radium'
+
+import './App.css';
+
 
 class App extends React.Component {
   state = {
     persons: [
-      {name: 'Kristaps', age: 23},
-      {name: 'Luka', age: 19},
-      {name: 'Dennis', age: 20}
+      {id: '1klj4l1k', name: 'Kristaps', age: 23},
+      {id: '13kj4h6uig', name: 'Luka', age: 19},
+      {id: 'as7dt6f789', name: 'Dennis', age: 20}
     ],
-    otherState: 'some other value'
+    otherState: 'some other value',
+    showPersons: false
   }
 
-  clickHandler = () => {
-    this.setState({
-      persons: [
-        {name: 'Kristaps Porzingis', age: 23},
-        {name: 'Luka Doncic', age: 19},
-        {name: 'Dennis Smith Jr.', age: 20}
-      ]
-    })
+  deletePersonHandler = (personIndex) => {
+    const persons = this.state.persons.slice(); // slice call is important to avoid mutation of original state.
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons})
   }
 
-  nameChangeHandler = (event) => {
-    this.setState( {
-      persons: [
-        {name: 'Kristaps Porzingis', age: 23},
-        {name: event.target.value, age: 19},
-        {name: 'Dennis Smith Jr.', age: 20}
-      ]
-    })
-  }
-
-    render() {
-      return (
-        <div className="App">
-          <button onClick={this.clickHandler}>Switch Name</button>
-            <Person
-              name={this.state.persons[0].name}
-              age={this.state.persons[0].age}
-              click={this.clickHandler}
-              />
-            <Person
-              name={this.state.persons[1].name} 
-              age={this.state.persons[1].age}
-              click={this.clickHandler}
-              changed={this.nameChangeHandler}
-              />
-            <Person
-              name={this.state.persons[2].name}
-              age={this.state.persons[2].age}
-              click={this.clickHandler}
-              />
-        </div>
-      )
+  nameChangeHandler = ( event, id ) => {
+    const personIndex = this.state.persons.findIndex((p) => p.id === id);
+    const person = {
+      ...this.state.persons[personIndex] // create a new object with copies of the properties of orginial object.
     }
+    person.name = event.target.value;
+    
+    const persons = [...this.state.persons]; // Create copy of persons array to set as new state property
+    persons[personIndex] = person;
+
+    this.setState( {
+      persons: persons
+    })
+  }
+
+  togglePersonHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({
+      showPersons: !doesShow
+    })
+  }
+
+  render() {
+    const style = {
+      backgroundColor: 'green',
+      color: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer',
+
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
+    }
+
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+      <div>
+        {this.state.persons.map((person, index) =>
+          <Person 
+            click={() => this.deletePersonHandler(index)}
+            name={person.name} 
+            age={person.age}
+            key={person.id}
+            changed={(event) => this.nameChangeHandler(event, person.id)}
+          />
+        )}
+      </div>
+      )
+
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
+    }
+
+    const classes = [];
+
+    if(this.state.persons.length <= 2 ) {
+      classes.push('red');
+    }
+
+    if (this.state.persons.length <= 1) {
+      classes.push('bold');
+    }
+
+    return (
+      <StyleRoot>
+      <div className="App">
+      <p className={classes.join(' ')}>Persons</p>
+        <button
+          style={style}
+          onClick={this.togglePersonHandler}>Toggle Persons</button>
+          {persons}
+      </div>
+      </StyleRoot>
+    )
+  }
 }
 
-export default App;
-
-
+export default Radium(App);
