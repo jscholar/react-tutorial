@@ -2,7 +2,7 @@ import React from 'react';
 import Person from './Person/Person'
 import Radium, { StyleRoot } from 'radium'
 
-import classes from './App.css';
+import classes from './App.module.css';
 
 
 class App extends React.Component {
