@@ -2,7 +2,7 @@ import React from 'react';
 import Person from './Person/Person'
 import Radium, { StyleRoot } from 'radium'
 
-import './App.css';
+import classes from './App.css';
 
 
 class App extends React.Component {
@@ -83,20 +83,20 @@ class App extends React.Component {
       }
     }
 
-    const classes = [];
+    const assignedClasses = [];
 
     if(this.state.persons.length <= 2 ) {
-      classes.push('red');
+      assignedClasses.push(assignedClasses.red);
     }
 
     if (this.state.persons.length <= 1) {
-      classes.push('bold');
+      assignedClasses.push(assignedClasses.bold);
     }
 
     return (
       <StyleRoot>
-      <div className="App">
-      <p className={classes.join(' ')}>Persons</p>
+      <div className={classes.App}>
+      <p className={assignedClasses.join(' ')}>Persons</p>
         <button
           style={style}
           onClick={this.togglePersonHandler}>Toggle Persons</button>
