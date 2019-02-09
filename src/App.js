@@ -3,7 +3,11 @@ import Person from './Person/Person'
 import Radium, { StyleRoot } from 'radium'
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import './App.css';
+=======
+import classes from './App.module.css';
+>>>>>>> bf8ed7f... removed module loading option on plain css files. src files configured for module.css syntax
 =======
 import classes from './App.module.css';
 >>>>>>> bf8ed7f... removed module loading option on plain css files. src files configured for module.css syntax
